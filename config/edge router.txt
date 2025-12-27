@@ -1,0 +1,57 @@
+
+Device: EDGE-ROUTER (Cisco 2811)
+Role  : LAN/WAN Border, NAT
+
+
+enable
+configure terminal
+
+! ---------- Inside interface (to CORE) ----------
+interface FastEthernet0/0
+ description INSIDE-LINK-TO-CORE
+ ip address 10.0.0.1 255.255.255.0
+ ip nat inside
+ no shutdown
+exit
+
+! ---------- Outside interface (to ISP) ----------
+interface FastEthernet0/1
+ description OUTSIDE-LINK-TO-ISP
+ ip address 200.0.0.2 255.255.255.0
+ ip nat outside
+ no shutdown
+exit
+
+! ---------- Loopback for TFTP / Voice ----------
+interface Loopback0
+ description TFTP-SERVER-LOOPBACK
+ ip address 192.168.20.254 255.255.255.0
+ ip nat inside
+ no shutdown
+exit
+
+! ---------- NAT / PAT ----------
+access-list 1 permit 192.168.0.0 0.0.255.255
+
+ip nat inside source list 1 interface FastEthernet0/1 overload
+
+! ---------- Static routes to internal VLANs ----------
+ip route 192.168.10.0 255.255.255.0 10.0.0.2
+ip route 192.168.12.0 255.255.255.0 10.0.0.2
+ip route 192.168.20.0 255.255.255.0 10.0.0.2
+ip route 192.168.30.0 255.255.255.0 10.0.0.2
+ip route 192.168.40.0 255.255.255.0 10.0.0.2
+ip route 192.168.60.0 255.255.255.0 10.0.0.2
+ip route 192.168.61.0 255.255.255.0 10.0.0.2
+
+! ---------- Default route to ISP ----------
+ip route 0.0.0.0 0.0.0.0 200.0.0.1
+
+end
+write memory
+
+! ---------- Verification ----------
+! show ip int brief
+! show ip nat translations
+! show access-lists
+! show ip route

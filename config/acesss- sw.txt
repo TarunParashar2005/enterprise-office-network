@@ -1,0 +1,110 @@
+
+Device: ACCESS-SW (Catalyst 2960)
+Role  : Access Layer Switch
+
+enable
+configure terminal
+
+! ---------- Trunk up to CORE ----------
+interface FastEthernet0/1
+ description TRUNK-TO-CORE-L3-SW
+ switchport mode trunk
+ switchport trunk allowed vlan 10,12,20,30,40,60,61
+ no shutdown
+exit
+
+! ---------- User PCs (VLAN 10) ----------
+interface FastEthernet0/2
+ description USER-PC-1
+ switchport mode access
+ switchport access vlan 10
+ spanning-tree portfast
+ no shutdown
+exit
+
+interface FastEthernet0/5
+ description USER-PC-2
+ switchport mode access
+ switchport access vlan 10
+ spanning-tree portfast
+ no shutdown
+exit
+
+interface FastEthernet0/6
+ description USER-PC-3
+ switchport mode access
+ switchport access vlan 10
+ spanning-tree portfast
+ no shutdown
+exit
+
+interface FastEthernet0/7
+ description USER-PC-4
+ switchport mode access
+ switchport access vlan 10
+ spanning-tree portfast
+ no shutdown
+exit
+
+! ---------- IP Phones (Voice VLAN 20, Data VLAN 10) ----------
+interface FastEthernet0/3
+ description IP-PHONE-1
+ switchport mode access
+ switchport access vlan 10
+ switchport voice vlan 20
+ spanning-tree portfast
+ no shutdown
+exit
+
+interface FastEthernet0/4
+ description IP-PHONE-2
+ switchport mode access
+ switchport access vlan 10
+ switchport voice vlan 20
+ spanning-tree portfast
+ no shutdown
+exit
+
+! ---------- Admin PC (VLAN 40) ----------
+interface FastEthernet0/8
+ description ADMIN-PC
+ switchport mode access
+ switchport access vlan 40
+ spanning-tree portfast
+ no shutdown
+exit
+
+! ---------- Wireless AP (VLAN 30, when used) ----------
+interface FastEthernet0/9
+ description WIRELESS-AP
+ switchport mode access
+ switchport access vlan 30
+ spanning-tree portfast
+ no shutdown
+exit
+
+! ---------- Printer (VLAN 12) ----------
+interface FastEthernet0/10
+ description NETWORK-PRINTER
+ switchport mode access
+ switchport access vlan 12
+ spanning-tree portfast
+ no shutdown
+exit
+
+! ---------- SRV-MAIN (VLAN 12) ----------
+interface FastEthernet0/17
+ description SRV-MAIN-DHCP
+ switchport mode access
+ switchport access vlan 12
+ spanning-tree portfast
+ no shutdown
+exit
+
+end
+write memory
+
+! ---------- Verification ----------
+! show interfaces trunk
+! show vlan brief
+! show interfaces status

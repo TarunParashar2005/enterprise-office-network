@@ -1,0 +1,73 @@
+SRV-MAIN (Server0) - DHCP & DNS Configuration
+
+
+Interface:
+- Connected to: ACCESS-SW Fa0/17
+- VLAN: 12 (SERVERS)
+
+IPv4 Static Address (Desktop → IP Configuration):
+- IP Address:   192.168.12.10
+- Subnet Mask:  255.255.255.0
+- Default GW:   192.168.12.1
+- DNS Server:   192.168.12.10
+
+Services Enabled:
+- DHCP: ON
+- DNS:  (optional, can be 192.168.12.10)
+
+DHCP Pools (Services → DHCP):
+
+1) VLAN10-Users
+   - Default Gateway: 192.168.10.1
+   - DNS Server:      192.168.12.10
+   - Start IP:        192.168.10.50
+   - Subnet Mask:     255.255.255.0
+   - Max Users:       50
+
+2) VLAN12-Servers
+   - Default Gateway: 192.168.12.1
+   - DNS Server:      192.168.12.10
+   - Start IP:        192.168.12.50
+   - Subnet Mask:     255.255.255.0
+   - Max Users:       50
+
+3) VLAN20-Voice
+   - Default Gateway: 192.168.20.1
+   - DNS Server:      192.168.12.10
+   - Start IP:        192.168.20.50
+   - Subnet Mask:     255.255.255.0
+   - Max Users:       50
+   - TFTP Server:     192.168.20.254   (Option 150 for IP phones)
+
+4) VLAN30-Guest
+   - Default Gateway: 192.168.30.1
+   - DNS Server:      192.168.12.10
+   - Start IP:        192.168.30.50
+   - Subnet Mask:     255.255.255.0
+   - Max Users:       50
+
+5) VLAN40-Management
+   - Default Gateway: 192.168.40.1
+   - DNS Server:      192.168.12.10
+   - Start IP:        192.168.40.50
+   - Subnet Mask:     255.255.255.0
+   - Max Users:       50
+
+6) VLAN60-CCTV
+   - Default Gateway: 192.168.60.1
+   - DNS Server:      192.168.12.10
+   - Start IP:        192.168.60.50
+   - Subnet Mask:     255.255.255.0
+   - Max Users:       50
+
+7) VLAN61-IOT
+   - Default Gateway: 192.168.61.1
+   - DNS Server:      192.168.12.10
+   - Start IP:        192.168.61.50
+   - Subnet Mask:     255.255.255.0
+   - Max Users:       50
+
+Notes:
+- Ensure global DHCP Service toggle is ON.
+- Ensure all pools show Status: ON.
+- DHCP relay (ip helper-address 192.168.12.10) must be configured on CORE-L3-SW for all SVIs.

@@ -1,0 +1,36 @@
+
+ Device: ISP-ROUTER (Cisco 2811)
+ Role  : Simulated ISP / Internet
+
+
+enable
+configure terminal
+
+interface FastEthernet0/0
+ description LINK-TO-EDGE
+ ip address 200.0.0.1 255.255.255.0
+ no shutdown
+exit
+
+interface Loopback0
+ description INTERNET-SIMULATION
+ ip address 8.8.8.8 255.255.255.255
+ no shutdown
+exit
+
+! ---------- Return routes to internal networks ----------
+ip route 192.168.10.0 255.255.255.0 200.0.0.2
+ip route 192.168.12.0 255.255.255.0 200.0.0.2
+ip route 192.168.20.0 255.255.255.0 200.0.0.2
+ip route 192.168.30.0 255.255.255.0 200.0.0.2
+ip route 192.168.40.0 255.255.255.0 200.0.0.2
+ip route 192.168.60.0 255.255.255.0 200.0.0.2
+ip route 192.168.61.0 255.255.255.0 200.0.0.2
+
+end
+write memory
+
+! ---------- Verification ----------
+! show ip route
+! ping 200.0.0.2
+! ping 10.0.0.1 (through EDGE, once routing works)
